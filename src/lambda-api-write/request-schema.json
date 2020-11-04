@@ -1,0 +1,30 @@
+{
+  "type": "object",
+  "anyOf": [
+    {
+      "additionalProperties": false,
+      "required": ["userId", "name", "email"],
+      "properties": {
+        "userId": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "name": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "email": { "type": "string", "format": "email" }
+      }
+    },
+    {
+      "additionalProperties": false,
+      "required": ["userId", "amount"],
+      "properties": {
+        "userId": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "amount": { "type": "number" }
+      }
+    },
+    {
+      "additionalProperties": false,
+      "required": ["userId", "transaction"],
+      "properties": {
+        "userId": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "transaction": { "type": "number", "min": 0 }
+      }
+    }
+  ]
+}

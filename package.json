@@ -1,0 +1,67 @@
+{
+  "name": "cdk-serverless-api",
+  "version": "0.1.0",
+  "bin": {
+    "cdk-serverless-api": "bin/cdk-serverless-api.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "test": "jest --silent --testPathIgnorePatterns=test/smoke-tests",
+    "smoke-tests": "jest test/smoke-tests",
+    "cdk": "cdk",
+    "format": "eslint --ext=ts . && prettier --list-different .",
+    "fix": "eslint --ext=ts --quiet --fix . && prettier --write ."
+  },
+  "devDependencies": {
+    "@aws-cdk/assert": "1.71.0",
+    "@aws-cdk/aws-lambda-event-sources": "^1.71.0",
+    "@types/aws-lambda": "^8.10.64",
+    "@types/jest": "^26.0.15",
+    "@types/lodash": "^4.14.164",
+    "@types/node": "14.14.6",
+    "@types/uuid": "^8.3.0",
+    "@typescript-eslint/eslint-plugin": "^4.6.1",
+    "@typescript-eslint/parser": "^4.6.1",
+    "aws-cdk": "1.71.0",
+    "axios": "^0.21.0",
+    "eslint": "^7.12.1",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-config-standard": "^16.0.1",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-promise": "^4.2.1",
+    "jest": "^26.6.3",
+    "parcel": "2.0.0-beta.1",
+    "prettier": "^2.1.2",
+    "ts-jest": "^26.4.3",
+    "ts-node": "^9.0.0",
+    "typescript": "~4.0.5"
+  },
+  "dependencies": {
+    "@aws-cdk/aws-apigateway": "^1.71.0",
+    "@aws-cdk/aws-dynamodb": "^1.71.0",
+    "@aws-cdk/aws-lambda": "^1.71.0",
+    "@aws-cdk/aws-lambda-nodejs": "^1.71.0",
+    "@aws-cdk/core": "1.71.0",
+    "ajv": "^6.12.4",
+    "aws-sdk": "^2.784.0",
+    "lodash": "^4.17.20",
+    "source-map-support": "^0.5.16",
+    "uuid": "^8.3.1"
+  },
+  "targets": {
+    "cdk-lambda": {
+      "context": "node",
+      "includeNodeModules": {
+        "aws-sdk": false
+      },
+      "sourceMap": false,
+      "minify": false,
+      "engines": {
+        "node": ">= 12"
+      }
+    }
+  }
+}

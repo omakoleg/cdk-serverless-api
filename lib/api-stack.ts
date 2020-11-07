@@ -32,6 +32,7 @@ export class ApiStack extends cdk.Stack {
       tracing: Tracing.ACTIVE,
       logRetention: RetentionDays.ONE_DAY,
       environment: {
+        VERSION: new Date().toISOString(),
         USERS_TABLE_NAME: usersTable.tableName,
       },
     });
@@ -45,6 +46,7 @@ export class ApiStack extends cdk.Stack {
       tracing: Tracing.ACTIVE,
       logRetention: RetentionDays.ONE_DAY,
       environment: {
+        VERSION: new Date().toISOString(),
         EVENTS_TABLE_NAME: eventsTable.tableName,
       },
     });
@@ -65,11 +67,6 @@ export class ApiStack extends cdk.Stack {
     authTable.grantReadData(authLambda);
     /** API */
     const api = new RestApi(this, "Api", {
-      // this is also the default
-      defaultCorsPreflightOptions: {
-        allowOrigins: Cors.ALL_ORIGINS,
-        allowMethods: Cors.ALL_METHODS,
-      },
       restApiName: "api",
       deployOptions: { metricsEnabled: true, tracingEnabled: true },
     });

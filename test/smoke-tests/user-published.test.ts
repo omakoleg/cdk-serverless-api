@@ -1,4 +1,3 @@
-import { Event } from "../../src/shared/types/event";
 import { randomString } from "../helpers/utils";
 import {
   apiRead,

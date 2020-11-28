@@ -1,6 +1,8 @@
 import {
+  arrayWith,
   expect as expectCDK,
   haveResourceLike,
+  objectLike,
   stringLike,
 } from "@aws-cdk/assert";
 import * as cdk from "@aws-cdk/core";
@@ -61,7 +63,7 @@ describe("ApiStack", () => {
     );
   });
 
-  it("has Auth lambda", () => {
+  it("Has Auth lambda", () => {
     expectCDK(stack).to(
       haveResourceLike("AWS::Lambda::Function", {
         Handler: "index.handleAuth",
@@ -78,13 +80,8 @@ describe("ApiStack", () => {
     expectCDK(stack).to(
       haveResourceLike("AWS::IAM::Policy", {
         PolicyDocument: {
-          Statement: [
-            {
-              Action: ["xray:PutTraceSegments", "xray:PutTelemetryRecords"],
-              Effect: "Allow",
-              Resource: "*",
-            },
-            {
+          Statement: arrayWith(
+            objectLike({
               Action: [
                 "dynamodb:BatchWriteItem",
                 "dynamodb:PutItem",
@@ -112,9 +109,8 @@ describe("ApiStack", () => {
                   ],
                 },
               ],
-            },
-          ],
-          Version: "2012-10-17",
+            })
+          ),
         },
       })
     );
@@ -124,13 +120,8 @@ describe("ApiStack", () => {
     expectCDK(stack).to(
       haveResourceLike("AWS::IAM::Policy", {
         PolicyDocument: {
-          Statement: [
-            {
-              Action: ["xray:PutTraceSegments", "xray:PutTelemetryRecords"],
-              Effect: "Allow",
-              Resource: "*",
-            },
-            {
+          Statement: arrayWith(
+            objectLike({
               Action: [
                 "dynamodb:BatchGetItem",
                 "dynamodb:GetRecords",
@@ -150,24 +141,18 @@ describe("ApiStack", () => {
                   Ref: "AWS::NoValue",
                 },
               ],
-            },
-          ],
-          Version: "2012-10-17",
+            })
+          ),
         },
       })
     );
   });
-  it("has real access to Auth table", () => {
+  it("has read access to the Auth table", () => {
     expectCDK(stack).to(
       haveResourceLike("AWS::IAM::Policy", {
         PolicyDocument: {
-          Statement: [
-            {
-              Action: ["xray:PutTraceSegments", "xray:PutTelemetryRecords"],
-              Effect: "Allow",
-              Resource: "*",
-            },
-            {
+          Statement: arrayWith(
+            objectLike({
               Action: [
                 "dynamodb:BatchGetItem",
                 "dynamodb:GetRecords",
@@ -187,9 +172,8 @@ describe("ApiStack", () => {
                   Ref: "AWS::NoValue",
                 },
               ],
-            },
-          ],
-          Version: "2012-10-17",
+            })
+          ),
         },
       })
     );

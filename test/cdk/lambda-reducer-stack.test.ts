@@ -13,7 +13,6 @@ import { UserDatabaseStack } from "../../lib/user-database-stack";
 describe("LambdaReducerStack", () => {
   const app = new cdk.App();
   const env = { account: "abc", region: "xxx" };
-
   const { eventsTable } = new EventsDatabaseStack(app, "E", { env });
   const { usersTable } = new UserDatabaseStack(app, "U", {
     env,

@@ -1,11 +1,11 @@
-import * as cdk from "@aws-cdk/core";
-import { Runtime, Tracing, StartingPosition } from "@aws-cdk/aws-lambda";
-import { Table } from "@aws-cdk/aws-dynamodb";
-import { StackProps } from "@aws-cdk/core";
-import { RetentionDays } from "@aws-cdk/aws-logs";
-import { join } from "path";
-import { DynamoEventSource } from "@aws-cdk/aws-lambda-event-sources";
-import { NodejsFunction } from "@aws-cdk/aws-lambda-nodejs";
+import * as cdk from '@aws-cdk/core';
+import { Runtime, Tracing, StartingPosition } from '@aws-cdk/aws-lambda';
+import { Table } from '@aws-cdk/aws-dynamodb';
+import { StackProps } from '@aws-cdk/core';
+import { RetentionDays } from '@aws-cdk/aws-logs';
+import { join } from 'path';
+import { DynamoEventSource } from '@aws-cdk/aws-lambda-event-sources';
+import { NodejsFunction } from '@aws-cdk/aws-lambda-nodejs';
 
 export interface LambdaReducerStackProps extends StackProps {
   eventsTable: Table;
@@ -13,19 +13,15 @@ export interface LambdaReducerStackProps extends StackProps {
 }
 
 export class LambdaReducerStack extends cdk.Stack {
-  constructor(
-    scope: cdk.Construct,
-    id: string,
-    props: LambdaReducerStackProps
-  ) {
+  constructor(scope: cdk.Construct, id: string, props: LambdaReducerStackProps) {
     super(scope, id, props);
     const { usersTable, eventsTable } = props;
 
-    const reducerLambda = new NodejsFunction(this, "ReducerLambda", {
-      functionName: "reducer",
-      entry: join(__dirname, "..", "src", "lambda-reducer", "index.ts"),
+    const reducerLambda = new NodejsFunction(this, 'ReducerLambda', {
+      functionName: 'reducer',
+      entry: join(__dirname, '..', 'src', 'lambda-reducer', 'index.ts'),
       runtime: Runtime.NODEJS_12_X,
-      handler: "handleReduce",
+      handler: 'handleReduce',
       tracing: Tracing.ACTIVE,
       logRetention: RetentionDays.ONE_DAY,
       environment: {
@@ -40,7 +36,7 @@ export class LambdaReducerStack extends cdk.Stack {
         startingPosition: StartingPosition.TRIM_HORIZON,
         batchSize: 1,
         retryAttempts: 1,
-      })
+      }),
     );
   }
 }

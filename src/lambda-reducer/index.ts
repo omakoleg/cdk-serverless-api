@@ -1,12 +1,8 @@
-import { DynamoDB } from "aws-sdk";
+import { DynamoDB } from 'aws-sdk';
 
-import Ajv from "ajv";
-import { handleReduceInternal } from "./app";
-import {
-  EVENTS_TABLE_NAME,
-  USERS_TABLE_NAME,
-  USER_ID_GSI_NAME,
-} from "../../lib/names";
+import Ajv from 'ajv';
+import { handleReduceInternal } from './app';
+import { EVENTS_TABLE_NAME, USERS_TABLE_NAME, USER_ID_GSI_NAME } from '../../lib/names';
 
 const ajv = new Ajv({ allErrors: true });
 

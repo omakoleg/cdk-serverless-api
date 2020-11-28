@@ -1,23 +1,18 @@
-import { randomString } from "../helpers/utils";
-import {
-  apiRead,
-  apiWrite,
-  getBasicAuthHeader,
-  RequestEvent,
-} from "./helpers/api";
+import { randomString } from '../helpers/utils';
+import { apiRead, apiWrite, getBasicAuthHeader, RequestEvent } from './helpers/api';
 import {
   dangerouslyRemoveAuthUser,
   dangerouslyRemoveUser,
   dangerouslyRemoveUserEvents,
   saveAuthUser,
-} from "./helpers/dynamodb";
-import { repeatCheck } from "./helpers/wait";
+} from './helpers/dynamodb';
+import { repeatCheck } from './helpers/wait';
 
 jest.setTimeout(5 * 60 * 1000);
 
-const FIXED_TEST_USER_ID = "10";
+const FIXED_TEST_USER_ID = '10';
 
-describe("Full flow", () => {
+describe('Full flow', () => {
   const accessId = randomString();
   const password = `p-${accessId}`;
 
@@ -25,7 +20,7 @@ describe("Full flow", () => {
     await dangerouslyRemoveAuthUser(accessId);
   });
 
-  it("Works with all events combined into one user", async () => {
+  it('Works with all events combined into one user', async () => {
     /**
      * Create test user access
      */
@@ -44,8 +39,8 @@ describe("Full flow", () => {
      */
     const userData: RequestEvent = {
       userId: FIXED_TEST_USER_ID,
-      email: "test@test.de",
-      name: "Test User",
+      email: 'test@test.de',
+      name: 'Test User',
     };
     const amountData: RequestEvent = {
       userId: FIXED_TEST_USER_ID,
@@ -55,7 +50,7 @@ describe("Full flow", () => {
       userId: FIXED_TEST_USER_ID,
       amount: -100,
     };
-    const transactionData2 = {
+    const transactionData2: RequestEvent = {
       userId: FIXED_TEST_USER_ID,
       amount: 10,
     };
@@ -69,12 +64,7 @@ describe("Full flow", () => {
     await repeatCheck(10, 5, async () => {
       const result = await apiRead(FIXED_TEST_USER_ID, basicAuthHeader);
       console.log(result.data);
-      return (
-        result &&
-        result.data &&
-        result.data.userId === FIXED_TEST_USER_ID &&
-        result.data.balance === 410
-      );
+      return result && result.data && result.data.userId === FIXED_TEST_USER_ID && result.data.balance === 410;
     });
   });
 });

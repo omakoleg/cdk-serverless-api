@@ -1,4 +1,4 @@
-import { DynamoDB } from "aws-sdk";
+import { DynamoDB } from 'aws-sdk';
 
 interface Props {
   getOutput?: DynamoDB.DocumentClient.GetItemOutput;

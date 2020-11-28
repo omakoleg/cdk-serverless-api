@@ -1,10 +1,10 @@
-import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
-import { DynamoDB } from "aws-sdk";
-import { v4 } from "uuid";
-import { Ajv } from "ajv";
-import schema from "./request-schema.json";
-import { toResponse } from "../shared/to-response";
-import { Event } from "../shared/types/event";
+import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
+import { DynamoDB } from 'aws-sdk';
+import { v4 } from 'uuid';
+import { Ajv } from 'ajv';
+import schema from './request-schema.json';
+import { toResponse } from '../shared/to-response';
+import { Event } from '../shared/types/event';
 
 const DefaultCurrentTime = () => new Date().toISOString();
 const DefaultId = () => v4();
@@ -14,7 +14,7 @@ const saveRequest = (
   eventsTableName: string,
   data: Event,
   getCurrentTime: () => string,
-  getId: () => string
+  getId: () => string,
 ): Promise<void> =>
   docClient
     .put({
@@ -33,11 +33,11 @@ export const handleWriteInternal = (
   ajv: Ajv,
   eventsTableName: string,
   getCurrentTime: () => string = DefaultCurrentTime,
-  getId: () => string = DefaultId
+  getId: () => string = DefaultId,
 ) => async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   console.log(`Request: ${JSON.stringify(event)}`);
   if (!event.body) {
-    return toResponse(400, ["Request body is not provided"]);
+    return toResponse(400, ['Request body is not provided']);
   }
   let errors: string[] = [];
   try {
@@ -45,13 +45,7 @@ export const handleWriteInternal = (
     const validate = ajv.compile(schema);
     const isValid = validate(body);
     if (isValid) {
-      await saveRequest(
-        docClient,
-        eventsTableName,
-        body as Event,
-        getCurrentTime,
-        getId
-      );
+      await saveRequest(docClient, eventsTableName, body as Event, getCurrentTime, getId);
       return toResponse(200);
     }
     errors = (validate.errors || []).map((x) => `${x.dataPath} ${x.message}`);

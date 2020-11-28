@@ -1,41 +1,41 @@
-import { expect as expectCDK, haveResourceLike } from "@aws-cdk/assert";
-import * as cdk from "@aws-cdk/core";
-import { AuthDatabaseStack } from "../../lib/auth-database-stack";
-import { AUTH_TABLE_NAME } from "../../lib/names";
+import { expect as expectCDK, haveResourceLike } from '@aws-cdk/assert';
+import * as cdk from '@aws-cdk/core';
+import { AuthDatabaseStack } from '../../lib/auth-database-stack';
+import { AUTH_TABLE_NAME } from '../../lib/names';
 
-describe("AuthDatabaseStack", () => {
+describe('AuthDatabaseStack', () => {
   const app = new cdk.App();
-  const env = { account: "abc", region: "xxx" };
-  const stack = new AuthDatabaseStack(app, "Db", {
+  const env = { account: 'abc', region: 'xxx' };
+  const stack = new AuthDatabaseStack(app, 'Db', {
     env,
   });
 
-  it("has table", () => {
+  it('has table', () => {
     expectCDK(stack).to(
-      haveResourceLike("AWS::DynamoDB::Table", {
+      haveResourceLike('AWS::DynamoDB::Table', {
         KeySchema: [
           {
-            AttributeName: "accessId",
-            KeyType: "HASH",
+            AttributeName: 'accessId',
+            KeyType: 'HASH',
           },
         ],
         AttributeDefinitions: [
           {
-            AttributeName: "accessId",
-            AttributeType: "S",
+            AttributeName: 'accessId',
+            AttributeType: 'S',
           },
         ],
         TableName: AUTH_TABLE_NAME,
-      })
+      }),
     );
   });
 
-  it("correct billing mode", () => {
+  it('correct billing mode', () => {
     expectCDK(stack).to(
-      haveResourceLike("AWS::DynamoDB::Table", {
-        BillingMode: "PAY_PER_REQUEST",
+      haveResourceLike('AWS::DynamoDB::Table', {
+        BillingMode: 'PAY_PER_REQUEST',
         TableName: AUTH_TABLE_NAME,
-      })
+      }),
     );
   });
 });

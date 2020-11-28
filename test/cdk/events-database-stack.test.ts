@@ -1,77 +1,77 @@
-import { expect as expectCDK, haveResourceLike } from "@aws-cdk/assert";
-import * as cdk from "@aws-cdk/core";
-import { EventsDatabaseStack } from "../../lib/events-database-stack";
+import { expect as expectCDK, haveResourceLike } from '@aws-cdk/assert';
+import * as cdk from '@aws-cdk/core';
+import { EventsDatabaseStack } from '../../lib/events-database-stack';
 
-describe("EventsDatabaseStack", () => {
+describe('EventsDatabaseStack', () => {
   const app = new cdk.App();
-  const env = { account: "abc", region: "xxx" };
-  const stack = new EventsDatabaseStack(app, "Db", {
+  const env = { account: 'abc', region: 'xxx' };
+  const stack = new EventsDatabaseStack(app, 'Db', {
     env,
   });
 
-  it("has table", () => {
+  it('has table', () => {
     expectCDK(stack).to(
-      haveResourceLike("AWS::DynamoDB::Table", {
+      haveResourceLike('AWS::DynamoDB::Table', {
         KeySchema: [
           {
-            AttributeName: "eventId",
-            KeyType: "HASH",
+            AttributeName: 'eventId',
+            KeyType: 'HASH',
           },
         ],
         AttributeDefinitions: [
           {
-            AttributeName: "eventId",
-            AttributeType: "S",
+            AttributeName: 'eventId',
+            AttributeType: 'S',
           },
           {
-            AttributeName: "userId",
-            AttributeType: "S",
+            AttributeName: 'userId',
+            AttributeType: 'S',
           },
         ],
-        TableName: "events",
-      })
+        TableName: 'events',
+      }),
     );
   });
 
-  it("has stream", () => {
+  it('has stream', () => {
     expectCDK(stack).to(
-      haveResourceLike("AWS::DynamoDB::Table", {
+      haveResourceLike('AWS::DynamoDB::Table', {
         StreamSpecification: {
-          StreamViewType: "NEW_IMAGE",
+          StreamViewType: 'NEW_IMAGE',
         },
-        TableName: "events",
-      })
+        TableName: 'events',
+      }),
     );
   });
 
-  it("has GSI", () => {
+  it('has GSI', () => {
     expectCDK(stack).to(
-      haveResourceLike("AWS::DynamoDB::Table", {
+      haveResourceLike('AWS::DynamoDB::Table', {
         GlobalSecondaryIndexes: [
           {
-            IndexName: "GsiUserId",
+            IndexName: 'GsiUserId',
             KeySchema: [
               {
-                AttributeName: "userId",
-                KeyType: "HASH",
+                AttributeName: 'userId',
+                KeyType: 'HASH',
               },
             ],
             Projection: {
-              ProjectionType: "ALL",
+              ProjectionType: 'ALL',
             },
           },
         ],
-        TableName: "events",
-      })
+        TableName: 'events',
+      }),
     );
   });
 
-  it("correct billing mode", () => {
+  it('correct billing mode', () => {
     expectCDK(stack).to(
-      haveResourceLike("AWS::DynamoDB::Table", {
-        BillingMode: "PAY_PER_REQUEST",
-        TableName: "events",
-      })
+      haveResourceLike('AWS::DynamoDB::Table', {
+        BillingMode: 'PAY_PER_REQUEST',
+        TableName: 'events',
+      }),
     );
   });
 });

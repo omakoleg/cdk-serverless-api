@@ -7,5 +7,5 @@ $DIR/clean.sh
 
 yarn install --frozen-lockfile
 yarn build
-yarn test
 yarn format
+yarn test

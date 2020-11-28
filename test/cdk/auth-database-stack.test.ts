@@ -1,6 +1,7 @@
 import { expect as expectCDK, haveResourceLike } from "@aws-cdk/assert";
 import * as cdk from "@aws-cdk/core";
 import { AuthDatabaseStack } from "../../lib/auth-database-stack";
+import { AUTH_TABLE_NAME } from "../../lib/names";
 
 describe("AuthDatabaseStack", () => {
   const app = new cdk.App();
@@ -24,7 +25,7 @@ describe("AuthDatabaseStack", () => {
             AttributeType: "S",
           },
         ],
-        TableName: "auth-users",
+        TableName: AUTH_TABLE_NAME,
       })
     );
   });
@@ -33,7 +34,7 @@ describe("AuthDatabaseStack", () => {
     expectCDK(stack).to(
       haveResourceLike("AWS::DynamoDB::Table", {
         BillingMode: "PAY_PER_REQUEST",
-        TableName: "auth-users",
+        TableName: AUTH_TABLE_NAME,
       })
     );
   });

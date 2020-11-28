@@ -2,6 +2,11 @@ import { DynamoDB } from "aws-sdk";
 
 import Ajv from "ajv";
 import { handleReduceInternal } from "./app";
+import {
+  EVENTS_TABLE_NAME,
+  USERS_TABLE_NAME,
+  USER_ID_GSI_NAME,
+} from "../../lib/names";
 
 const ajv = new Ajv({ allErrors: true });
 
@@ -11,8 +16,8 @@ const docClient = new DynamoDB.DocumentClient({
 
 export const handleReduce = handleReduceInternal({
   docClient,
-  eventsTableName: process.env.EVENTS_TABLE_NAME!,
-  usersTableName: process.env.USERS_TABLE_NAME!,
-  userIdGsiName: process.env.USER_ID_GSI_NAME!,
+  eventsTableName: EVENTS_TABLE_NAME,
+  usersTableName: USERS_TABLE_NAME,
+  userIdGsiName: USER_ID_GSI_NAME,
   ajv,
 });

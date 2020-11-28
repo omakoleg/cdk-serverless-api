@@ -1,6 +1,7 @@
 import { DynamoDB } from "aws-sdk";
 import Ajv from "ajv";
 import { handleWriteInternal } from "./app";
+import { EVENTS_TABLE_NAME } from "../../lib/names";
 
 const ajv = new Ajv({ allErrors: true });
 
@@ -11,5 +12,5 @@ const docClient = new DynamoDB.DocumentClient({
 export const handleWrite = handleWriteInternal(
   docClient,
   ajv,
-  process.env.EVENTS_TABLE_NAME!
+  EVENTS_TABLE_NAME
 );

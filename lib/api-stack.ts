@@ -33,7 +33,6 @@ export class ApiStack extends cdk.Stack {
       logRetention: RetentionDays.ONE_DAY,
       environment: {
         VERSION: new Date().toISOString(),
-        USERS_TABLE_NAME: usersTable.tableName,
       },
     });
     usersTable.grantReadData(readLambda);
@@ -47,7 +46,6 @@ export class ApiStack extends cdk.Stack {
       logRetention: RetentionDays.ONE_DAY,
       environment: {
         VERSION: new Date().toISOString(),
-        EVENTS_TABLE_NAME: eventsTable.tableName,
       },
     });
     eventsTable.grantWriteData(writeLambda);
@@ -61,7 +59,6 @@ export class ApiStack extends cdk.Stack {
       logRetention: RetentionDays.ONE_DAY,
       environment: {
         VERSION: new Date().toISOString(),
-        AUTH_TABLE_NAME: authTable.tableName,
       },
     });
     authTable.grantReadData(authLambda);

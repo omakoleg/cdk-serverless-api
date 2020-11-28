@@ -1,6 +1,7 @@
 import * as cdk from "@aws-cdk/core";
 import { Table, AttributeType, BillingMode } from "@aws-cdk/aws-dynamodb";
 import { RemovalPolicy } from "@aws-cdk/core";
+import { USERS_TABLE_NAME } from "./names";
 
 export class UserDatabaseStack extends cdk.Stack {
   readonly usersTable: Table;
@@ -9,7 +10,7 @@ export class UserDatabaseStack extends cdk.Stack {
     super(scope, id, props);
 
     this.usersTable = new Table(this, "UsersTable", {
-      tableName: "users",
+      tableName: USERS_TABLE_NAME,
       partitionKey: { name: "userId", type: AttributeType.STRING },
       billingMode: BillingMode.PAY_PER_REQUEST,
       removalPolicy: RemovalPolicy.DESTROY,

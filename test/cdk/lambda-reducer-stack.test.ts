@@ -22,10 +22,9 @@ describe("LambdaReducerStack", () => {
     env,
     eventsTable,
     usersTable,
-    userIdGsiName: "gsi-here",
   });
 
-  it("has Lambda", () => {
+  it("Has Lambda", () => {
     expectCDK(stack).to(
       haveResourceLike("AWS::Lambda::Function", {
         Handler: "index.handleReduce",
@@ -33,17 +32,6 @@ describe("LambdaReducerStack", () => {
           "Fn::GetAtt": [stringLike("ReducerLambdaServiceRole*"), "Arn"],
         },
         Runtime: "nodejs12.x",
-        Environment: {
-          Variables: {
-            USERS_TABLE_NAME: {
-              "Fn::ImportValue": stringLike("U:ExportsOutputRefUsersTable*"),
-            },
-            EVENTS_TABLE_NAME: {
-              "Fn::ImportValue": stringLike("E:ExportsOutputRefEventsTable*"),
-            },
-            USER_ID_GSI_NAME: "gsi-here",
-          },
-        },
         FunctionName: "reducer",
         TracingConfig: {
           Mode: "Active",
@@ -52,7 +40,7 @@ describe("LambdaReducerStack", () => {
     );
   });
 
-  it("Granted write to Users table", () => {
+  it("Granted write to the Users table", () => {
     expectCDK(stack).to(
       haveResourceLike("AWS::IAM::Policy", {
         PolicyDocument: {
@@ -82,7 +70,7 @@ describe("LambdaReducerStack", () => {
     );
   });
 
-  it("Granted read from Events table", () => {
+  it("Granted read from the Events table", () => {
     expectCDK(stack).to(
       haveResourceLike("AWS::IAM::Policy", {
         PolicyDocument: {
@@ -124,7 +112,7 @@ describe("LambdaReducerStack", () => {
     );
   });
 
-  it("Connected to events stream", () => {
+  it("Connected to the events stream", () => {
     expectCDK(stack).to(
       haveResourceLike("AWS::Lambda::EventSourceMapping", {
         EventSourceArn: {

@@ -40,13 +40,6 @@ describe("ApiStack", () => {
       haveResourceLike("AWS::Lambda::Function", {
         Handler: "index.handleRead",
         Runtime: "nodejs12.x",
-        Environment: {
-          Variables: {
-            USERS_TABLE_NAME: {
-              "Fn::ImportValue": stringLike("U:ExportsOutputRefUsersTable*"),
-            },
-          },
-        },
         FunctionName: "read-api",
         TracingConfig: {
           Mode: "Active",
@@ -60,13 +53,6 @@ describe("ApiStack", () => {
       haveResourceLike("AWS::Lambda::Function", {
         Handler: "index.handleWrite",
         Runtime: "nodejs12.x",
-        Environment: {
-          Variables: {
-            EVENTS_TABLE_NAME: {
-              "Fn::ImportValue": stringLike("E:ExportsOutputRefEventsTable*"),
-            },
-          },
-        },
         FunctionName: "write-api",
         TracingConfig: {
           Mode: "Active",
@@ -80,13 +66,6 @@ describe("ApiStack", () => {
       haveResourceLike("AWS::Lambda::Function", {
         Handler: "index.handleAuth",
         Runtime: "nodejs12.x",
-        Environment: {
-          Variables: {
-            AUTH_TABLE_NAME: {
-              "Fn::ImportValue": stringLike("A:ExportsOutputRefAuthTable*"),
-            },
-          },
-        },
         FunctionName: "auth",
         TracingConfig: {
           Mode: "Active",

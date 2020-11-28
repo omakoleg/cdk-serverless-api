@@ -10,7 +10,6 @@ import { NodejsFunction } from "@aws-cdk/aws-lambda-nodejs";
 export interface LambdaReducerStackProps extends StackProps {
   eventsTable: Table;
   usersTable: Table;
-  userIdGsiName: string;
 }
 
 export class LambdaReducerStack extends cdk.Stack {
@@ -20,7 +19,7 @@ export class LambdaReducerStack extends cdk.Stack {
     props: LambdaReducerStackProps
   ) {
     super(scope, id, props);
-    const { usersTable, eventsTable, userIdGsiName } = props;
+    const { usersTable, eventsTable } = props;
 
     const reducerLambda = new NodejsFunction(this, "ReducerLambda", {
       functionName: "reducer",
@@ -30,9 +29,7 @@ export class LambdaReducerStack extends cdk.Stack {
       tracing: Tracing.ACTIVE,
       logRetention: RetentionDays.ONE_DAY,
       environment: {
-        USERS_TABLE_NAME: usersTable.tableName,
-        EVENTS_TABLE_NAME: eventsTable.tableName,
-        USER_ID_GSI_NAME: userIdGsiName,
+        VERSION: new Date().toISOString(),
       },
     });
     usersTable.grantWriteData(reducerLambda);

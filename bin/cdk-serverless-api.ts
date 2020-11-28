@@ -42,6 +42,5 @@ new LambdaReducerStack(app, "LambdaReducerStack", {
   env,
   eventsTable: eventsDatabaseStack.eventsTable,
   usersTable: usersDatabaseStack.usersTable,
-  userIdGsiName: eventsDatabaseStack.userIdGsiName,
   stackName: "app-reducer",
 });

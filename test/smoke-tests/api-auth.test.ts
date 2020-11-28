@@ -5,23 +5,20 @@ import { dangerouslyRemoveAuthUser, saveAuthUser } from './helpers/dynamodb';
 jest.setTimeout(5 * 60 * 1000);
 
 describe('Api Endpoint has authentication', () => {
-  const accessId = randomString(5);
+  const accessId = 'test-user-access';
+  const password = `p-${randomString(20)}`;
 
   afterAll(async () => {
     await dangerouslyRemoveAuthUser(accessId);
   });
 
   it('Allowed with correct credentials', async () => {
-    /**
-     * Create test user access
-     */
     await saveAuthUser({
       accessId,
-      password: accessId,
+      password,
     });
-    const basicAuthHeader = getBasicAuthHeader(accessId, accessId);
+    const basicAuthHeader = getBasicAuthHeader(accessId, password);
     const result = await apiRead('1', basicAuthHeader);
-    console.log(result.statusText, result.data);
     expect(result.status).toBe(404); // not 403 or 401
   });
 

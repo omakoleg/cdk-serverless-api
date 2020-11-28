@@ -13,8 +13,8 @@ jest.setTimeout(5 * 60 * 1000);
 const FIXED_TEST_USER_ID = '10';
 
 describe('Full flow', () => {
-  const accessId = randomString();
-  const password = `p-${accessId}`;
+  const accessId = 'full-flow-test-user';
+  const password = `p-${randomString(20)}`;
 
   afterAll(async () => {
     await dangerouslyRemoveAuthUser(accessId);
